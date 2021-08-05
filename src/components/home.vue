@@ -7,7 +7,7 @@
         <ul>
           <li v-for="per in Users" :key="per.id">
             <a
-              @click="selectedserfun(per)"
+              @click="selectUser(per)"
               :class="{ 'is-active': selectedUser === per }"
             >
               {{ per.firstName }}
@@ -16,65 +16,48 @@
         </ul>
         <p>Admins</p>
         <ul>
-          <li v-for="per in admins" :key="per.id">
+          <li v-for="ad in Admins" :key="ad.aid">
             <a
-              @click="selectadmin(per)"
-              :class="{ 'is-active': selectedadmin === per }"
+              @click="selectAdmin(ad)"
+              :class="{ 'is-active': selectedAdmin === ad }"
             >
-              {{ per.firstName }}
+              {{ ad.afirstName }}
             </a>
           </li>
         </ul>
       </div>
     </div>
-    <div>
-      <div id="admincontainer">
-        <div class="header">
-          <h4>Admin</h4>
+    <div id="usercontainer" v-if="selectedAdmin">
+      <div class="header">
+        <h4>Admin</h4>
+        <p>{{ fullNameAdmin }}</p>
+      </div>
+      <div class="content">
+        <div class="field">
+          <label for="id"> Admin ID </label><br />
+          <input type="text" id="id" v-model="selectedAdmin.aid" readonly />
         </div>
-        <div>
-          <div id="usercontainer" v-if="selectedadmin">
-            <div class="header">
-              <p>{{ fullNameofAdmin }}</p>
-            </div>
-            <div class="content">
-              <div class="field">
-                <label for="id"> User ID </label><br />
-                <input
-                  type="text"
-                  id="id"
-                  v-model="selectedadmin.id"
-                  readonly
-                />
-              </div>
-              <div class="field">
-                <label for="firstname"> First Name</label><br />
-                <input
-                  type="text"
-                  id="firstname"
-                  v-model="selectedadmin.firstName"
-                />
-              </div>
-              <div class="field">
-                <label for="lastame"> Last Name</label><br />
-                <input
-                  type="text"
-                  id="lastname"
-                  v-model="selectedadmin.lastname"
-                />
-              </div>
-              <div class="field">
-                <label for="age"> User Age </label><br />
-                <input type="text" id="age" v-model="selectedadmin.age" />
-              </div>
-              <div class="btndiv">
-                <button class="btn" @click="cancelbtn">Cancel</button>
-              </div>
-              <div class="btndiv">
-                <button class="btn" @click="saveBtn">Save</button>
-              </div>
-            </div>
-          </div>
+        <div class="field">
+          <label for="firstname"> First Name</label><br />
+          <input
+            type="text"
+            id="firstname"
+            v-model="selectedAdmin.afirstName"
+          />
+        </div>
+        <div class="field">
+          <label for="lastame"> Last Name</label><br />
+          <input type="text" id="lastname" v-model="selectedAdmin.alastname" />
+        </div>
+        <div class="field">
+          <label for="age"> Admin Age </label><br />
+          <input type="text" id="age" v-model="selectedAdmin.aage" />
+        </div>
+        <div class="btndiv">
+          <button class="btn" @click="cancelbtn">Cancel</button>
+        </div>
+        <div class="btndiv">
+          <button class="btn" @click="saveBtn">Save</button>
         </div>
       </div>
     </div>
@@ -115,7 +98,6 @@
 </template>
 
 <script>
-import Admin from "./admins.vue";
 const User = [
   {
     id: 0,
@@ -127,116 +109,99 @@ const User = [
     id: 1,
     firstName: "Ahmad",
     lastname: "Raza",
-    age: 22,
+    age: 21,
   },
   {
     id: 2,
     firstName: "Ali",
     lastname: "Raza",
-    age: 22,
+    age: 23,
   },
   {
-    id: 2,
+    id: 3,
     firstName: "Raza",
     lastname: "Mowana",
-    age: 22,
+    age: 24,
   },
   {
-    id: 2,
+    id: 4,
     firstName: "Shabbar",
     lastname: "Raza",
-    age: 22,
+    age: 25,
   },
   {
-    id: 2,
+    id: 5,
     firstName: "Asad ",
     lastname: "Shafique",
-    age: 22,
+    age: 26,
   },
 ];
 const Admin = [
   {
-    id: 0,
-    firstName: "Abdul manan",
-    lastname: "Ali",
-    age: 22,
+    aid: 0,
+    afirstName: "Abdul manan",
+    alastname: "Ali",
+    aage: 22,
   },
   {
-    id: 1,
-    firstName: "Ahmad",
-    lastname: "Raza",
-    age: 22,
+    aid: 1,
+    afirstName: "Abdullah",
+    alastname: "Iqbal",
+    aage: 23,
   },
   {
-    id: 2,
-    firstName: "Ali",
-    lastname: "Raza",
-    age: 22,
-  },
-  {
-    id: 2,
-    firstName: "Raza",
-    lastname: "Mowana",
-    age: 22,
-  },
-  {
-    id: 2,
-    firstName: "Shabbar",
-    lastname: "Raza",
-    age: 22,
-  },
-  {
-    id: 2,
-    firstName: "Asad ",
-    lastname: "Shafique",
-    age: 22,
+    aid: 3,
+    afirstName: "Abdullah",
+    alastname: "Shahid",
+    aage: 24,
   },
 ];
 export default {
   name: "Home",
-  components: {
-    Admin,
-  },
   data() {
     return {
       Users: [],
       Admins: [],
       selectedUser: undefined,
-      selectedadmin: undefined,
+      selectedAdmin: undefined,
       message: "This is message",
     };
   },
   methods: {
     cancelbtn() {
       this.selectedUser = undefined;
+      this.selectedAdmin = undefined;
       this.message = "";
     },
     saveBtn() {
-      this.message = JSON.stringify(this.selectedUser, null, "\n");
+      if (this.selectedUser) {
+        this.message = JSON.stringify(this.selectedUser, null, "\n");
+      } else {
+        this.message = JSON.stringify(this.selectedAdmin, null, "\n");
+      }
     },
     async GetUsers() {
       return new Promise((resolve) => {
         setTimeout(() => resolve(User), 1500);
       });
     },
-    async GetAdmins() {
+    async GetAdmin() {
       return new Promise((resolve) => {
         setTimeout(() => resolve(Admin), 1500);
       });
     },
     async LoadUsers() {
       this.Users = [];
-      this.Admins = [];
-      this.this.message = "Please wait... Users and Admins are being Loaded";
+      this.message = "Please wait... Users and Admins are being Loaded";
       this.Users = await this.GetUsers();
-      this.Admins = await this.GetAdmins();
+      this.Admins = await this.GetAdmin();
       this.message = "";
     },
-    selectedserfun(persons) {
+    selectUser(persons) {
       this.selectedUser = persons;
     },
-    selectadmin(ad) {
-      this.selectedadmin = ad;
+    selectAdmin(adm) {
+      this.selectedAdmin = adm;
     },
   },
   created() {
@@ -246,8 +211,8 @@ export default {
     fullName() {
       return `${this.selectedUser.firstName} ${this.selectedUser.lastname}`;
     },
-    fullNameadmin() {
-      return `${this.selectedadmin.firstName} ${this.selectedadmin.lastname}`;
+    fullNameAdmin() {
+      return `${this.selectedAdmin.afirstName} ${this.selectedAdmin.alastname}`;
     },
   },
 };
