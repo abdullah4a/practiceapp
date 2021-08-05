@@ -1,5 +1,10 @@
 # app
+A Practice app
 
+
+created by :
+Abdullah Iqbal 
+front End web Developer and Full Stack C# Desktop app Developer
 ## Project setup
 ```
 npm install
