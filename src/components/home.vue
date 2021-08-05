@@ -3,26 +3,80 @@
     <div id="nav">
       <div class="header"><h3>List of Names</h3></div>
       <div class="links">
+        <p>Users</p>
         <ul>
           <li v-for="per in Users" :key="per.id">
-          <a @click="selectedserfun(per)"
-          :class="{ 'is-active': selectedUser === per }"
-        >
-          {{ per.firstName }}
-        </a>
+            <a
+              @click="selectedserfun(per)"
+              :class="{ 'is-active': selectedUser === per }"
+            >
+              {{ per.firstName }}
+            </a>
           </li>
         </ul>
-        
+        <p>Admins</p>
+        <ul>
+          <li v-for="per in admins" :key="per.id">
+            <a
+              @click="selectadmin(per)"
+              :class="{ 'is-active': selectedadmin === per }"
+            >
+              {{ per.firstName }}
+            </a>
+          </li>
+        </ul>
       </div>
     </div>
-    <div v v-for="admin in Users" :key="admin.id">
-    <div id="admincontainer" v-if="selectadmin(admin)">
-      <div class="header">
-        <h4>Admin</h4>
-        <p>{{ fullName }}</p>
-        <Admin />
+    <div>
+      <div id="admincontainer">
+        <div class="header">
+          <h4>Admin</h4>
+        </div>
+        <div>
+          <div id="usercontainer" v-if="selectedadmin">
+            <div class="header">
+              <p>{{ fullNameofAdmin }}</p>
+            </div>
+            <div class="content">
+              <div class="field">
+                <label for="id"> User ID </label><br />
+                <input
+                  type="text"
+                  id="id"
+                  v-model="selectedadmin.id"
+                  readonly
+                />
+              </div>
+              <div class="field">
+                <label for="firstname"> First Name</label><br />
+                <input
+                  type="text"
+                  id="firstname"
+                  v-model="selectedadmin.firstName"
+                />
+              </div>
+              <div class="field">
+                <label for="lastame"> Last Name</label><br />
+                <input
+                  type="text"
+                  id="lastname"
+                  v-model="selectedadmin.lastname"
+                />
+              </div>
+              <div class="field">
+                <label for="age"> User Age </label><br />
+                <input type="text" id="age" v-model="selectedadmin.age" />
+              </div>
+              <div class="btndiv">
+                <button class="btn" @click="cancelbtn">Cancel</button>
+              </div>
+              <div class="btndiv">
+                <button class="btn" @click="saveBtn">Save</button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
     </div>
     <div id="usercontainer" v-if="selectedUser">
       <div class="header">
@@ -55,16 +109,52 @@
       </div>
     </div>
     <div class="message">
-      <p>
-        <pre>{{ message }}</pre>
-      </p>
+      <pre>{{ message }}</pre>
     </div>
   </div>
 </template>
 
 <script>
-import Admin from "./admins.vue"
+import Admin from "./admins.vue";
 const User = [
+  {
+    id: 0,
+    firstName: "Abdul manan",
+    lastname: "Ali",
+    age: 22,
+  },
+  {
+    id: 1,
+    firstName: "Ahmad",
+    lastname: "Raza",
+    age: 22,
+  },
+  {
+    id: 2,
+    firstName: "Ali",
+    lastname: "Raza",
+    age: 22,
+  },
+  {
+    id: 2,
+    firstName: "Raza",
+    lastname: "Mowana",
+    age: 22,
+  },
+  {
+    id: 2,
+    firstName: "Shabbar",
+    lastname: "Raza",
+    age: 22,
+  },
+  {
+    id: 2,
+    firstName: "Asad ",
+    lastname: "Shafique",
+    age: 22,
+  },
+];
+const Admin = [
   {
     id: 0,
     firstName: "Abdul manan",
@@ -104,12 +194,13 @@ const User = [
 ];
 export default {
   name: "Home",
-  components:{
-Admin,
+  components: {
+    Admin,
   },
   data() {
     return {
-      Users:[],
+      Users: [],
+      Admins: [],
       selectedUser: undefined,
       selectedadmin: undefined,
       message: "This is message",
@@ -117,7 +208,7 @@ Admin,
   },
   methods: {
     cancelbtn() {
-      this.selectedUser=undefined;
+      this.selectedUser = undefined;
       this.message = "";
     },
     saveBtn() {
@@ -128,25 +219,35 @@ Admin,
         setTimeout(() => resolve(User), 1500);
       });
     },
+    async GetAdmins() {
+      return new Promise((resolve) => {
+        setTimeout(() => resolve(Admin), 1500);
+      });
+    },
     async LoadUsers() {
-      this.Users=[];
-      this.message = "Please wait... Users are being Loaded";
+      this.Users = [];
+      this.Admins = [];
+      this.this.message = "Please wait... Users and Admins are being Loaded";
       this.Users = await this.GetUsers();
+      this.Admins = await this.GetAdmins();
       this.message = "";
     },
-    selectedserfun(persons){
-      this.selectedUser=persons;
+    selectedserfun(persons) {
+      this.selectedUser = persons;
     },
-    selectadmin(ad){
-      this.selectedadmin=ad;
-    }
+    selectadmin(ad) {
+      this.selectedadmin = ad;
+    },
   },
   created() {
     this.LoadUsers();
   },
   computed: {
     fullName() {
-        return `${this.selectedUser.firstName} ${this.selectedUser.lastname}`;
+      return `${this.selectedUser.firstName} ${this.selectedUser.lastname}`;
+    },
+    fullNameadmin() {
+      return `${this.selectedadmin.firstName} ${this.selectedadmin.lastname}`;
     },
   },
 };
