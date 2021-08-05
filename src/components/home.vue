@@ -20,7 +20,7 @@
       <div class="header">
         <h4>Admin</h4>
         <p>{{ fullName }}</p>
-        <Admin/>
+        <Admin />
       </div>
     </div>
     </div>
@@ -146,11 +146,7 @@ Admin,
   },
   computed: {
     fullName() {
-      if (this.selectedUser) {
         return `${this.selectedUser.firstName} ${this.selectedUser.lastname}`;
-      } else {
-        return `${this.selectedadmin.firstName} ${this.selectedadmin.lastname}`;
-      }
     },
   },
 };
