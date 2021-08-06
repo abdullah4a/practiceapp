@@ -216,13 +216,12 @@ export default {
     },
   },
   watch: {
-    saveBtn: {
+    "selectedUser.lastname": {
       immediate: true,
-      deep: true,
       handler(newValue, oldValue) {
-        console.log(`watcher is Working Old value is ${oldValue} and New Value `)
-      }
-    }
+        console.log(`working NewValue = ${newValue} Old Value= ${oldValue}`);
+      },
+    },
   },
 };
 </script>
