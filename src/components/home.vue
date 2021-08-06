@@ -215,6 +215,15 @@ export default {
       return `${this.selectedAdmin.afirstName} ${this.selectedAdmin.alastname}`;
     },
   },
+  watch: {
+    saveBtn: {
+      immediate: true,
+      deep: true,
+      handler(newValue, oldValue) {
+        console.log(`watcher is Working Old value is ${oldValue} and New Value `)
+      }
+    }
+  },
 };
 </script>
 
