@@ -24,5 +24,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  background-image: linear-gradient(
+    to right,
+    rgb(255, 255, 255),
+    rgb(0, 117, 39)
+  );
 }
 </style>

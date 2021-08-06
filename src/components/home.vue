@@ -30,7 +30,7 @@
     <div id="usercontainer" v-if="selectedAdmin">
       <div class="header">
         <h4>Admin</h4>
-        <p>{{ fullNameAdmin }}</p>
+        <p>{{ fullNameAdmin | Capt }}</p>
       </div>
       <div class="content">
         <div class="field">
@@ -64,7 +64,7 @@
     <div id="usercontainer" v-if="selectedUser">
       <div class="header">
         <h4>User</h4>
-        <p>{{ fullName }}</p>
+        <p>{{ fullName | Capt }}</p>
       </div>
       <div class="content">
         <div class="field">
@@ -82,6 +82,12 @@
         <div class="field">
           <label for="age"> User Age </label><br />
           <input type="text" id="age" v-model="selectedUser.age" />
+        </div>
+        <div class="field">
+          <label for="age"> User Salary </label><br />
+          <input type="text" id="age" v-model="selectedUser.Salary" /><br />${{
+            selectedUser.Salary | Dollars
+          }}
         </div>
         <div class="btndiv">
           <button class="btn" @click="cancelbtn">Cancel</button>
@@ -104,36 +110,42 @@ const User = [
     firstName: "Abdul manan",
     lastname: "Ali",
     age: 22,
+    Salary: 0,
   },
   {
     id: 1,
     firstName: "Ahmad",
     lastname: "Raza",
     age: 21,
+    Salary: 12000,
   },
   {
     id: 2,
     firstName: "Ali",
     lastname: "Raza",
     age: 23,
+    Salary: 25000,
   },
   {
     id: 3,
     firstName: "Raza",
     lastname: "Mowana",
     age: 24,
+    Salary: 100000,
   },
   {
     id: 4,
     firstName: "Shabbar",
     lastname: "Raza",
     age: 25,
+    Salary: 35000,
   },
   {
     id: 5,
     firstName: "Asad ",
     lastname: "Shafique",
     age: 26,
+    Salary: 40000,
   },
 ];
 const Admin = [
@@ -223,6 +235,9 @@ export default {
       },
     },
   },
+  beforeCreate() {
+    alert("DOM is getting Ready Please Wait...");
+  },
 };
 </script>
 
@@ -237,11 +252,11 @@ li {
   margin: 0 10px;
 }
 a {
-  color: #42b983;
+  color: #000000;
   margin: 10px;
   padding: 10px;
   border-radius: 4px;
-  cursor: -webkit-grab;
+  cursor: pointer;
 }
 .header {
   width: auto;
@@ -257,7 +272,7 @@ a {
   margin: auto;
 }
 .content {
-  background-color: lightgray;
+  background-color: rgba(211, 211, 211, 0);
   margin: 10px;
   border-radius: 4px;
 }
