@@ -54,10 +54,14 @@
           <input type="text" id="age" v-model="selectedAdmin.aage" />
         </div>
         <div class="btndiv">
-          <button class="btn" @click="cancelbtn">Cancel</button>
+          <button class="btn" @click="cancelbtn">
+            {{ btnCancel | SaveSentenceCase }}
+          </button>
         </div>
         <div class="btndiv">
-          <button class="btn" @click="saveBtn">Save</button>
+          <button class="btn" @click="saveBtn">
+            {{ btnSave | SaveSentenceCase }}
+          </button>
         </div>
       </div>
     </div>
@@ -73,7 +77,12 @@
         </div>
         <div class="field">
           <label for="firstname"> First Name</label><br />
-          <input type="text" id="firstname" v-model="selectedUser.firstName" />
+          <input
+            type="text"
+            id="firstname"
+            v-model="selectedUser.firstName"
+          /><br />
+          {{ selectedUser.firstName | MsgIncrement }} <br />
         </div>
         <div class="field">
           <label for="lastame"> Last Name</label><br />
@@ -90,10 +99,14 @@
           }}
         </div>
         <div class="btndiv">
-          <button class="btn" @click="cancelbtn">Cancel</button>
+          <button class="btn" @click="cancelbtn">
+            {{ btnCancel | SaveSentenceCase }}
+          </button>
         </div>
         <div class="btndiv">
-          <button class="btn" @click="saveBtn">Save</button>
+          <button class="btn" @click="saveBtn">
+            {{ btnSave | SaveSentenceCase }}
+          </button>
         </div>
       </div>
     </div>
@@ -177,6 +190,8 @@ export default {
       selectedUser: undefined,
       selectedAdmin: undefined,
       message: "This is message",
+      btnSave: "save",
+      btnCancel: "cancel",
     };
   },
   methods: {
