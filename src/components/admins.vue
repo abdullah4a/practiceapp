@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     cancelbtn() {
-      this.selectedAdmin = undefined;
+      this.admin = undefined;
       this.message = "";
     },
     saveBtn() {

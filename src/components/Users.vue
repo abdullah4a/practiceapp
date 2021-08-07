@@ -62,7 +62,7 @@ export default {
   },
   methods: {
     cancelbtn() {
-      this.selectedUser = undefined;
+      this.user = undefined;
       this.message = "";
     },
     saveBtn() {
