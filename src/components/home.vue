@@ -27,8 +27,18 @@
         </ul>
       </div>
     </div>
-    <admins v-if="selectedAdmin" :admin="selectedAdmin" />
-    <users v-if="selectedUser" :user="selectedUser" />
+    <admins
+      v-if="selectedAdmin"
+      :admin="selectedAdmin"
+      @save="saveBtn"
+      @cancel="cancelbtn"
+    />
+    <users
+      v-if="selectedUser"
+      :user="selectedUser"
+      @cancel="cancelbtn"
+      @save="saveBtn"
+    />
     <div class="message">
       <pre>{{ message }}</pre>
     </div>
@@ -124,9 +134,21 @@ export default {
       this.message = "";
     },
     saveBtn() {
-      if(selectedAdmin)
-      {this.message = JSON.stringify(this.selectedAdmin, null, "\n");}
-      else {this.message = JSON.stringify(this.selectedUser, null, "\n");}
+      if (this.selectedUser) {
+        const index = this.Users.findIndex(
+          (u) => u.id === this.selectedUser.id
+        );
+        this.Users.splice(index, 1, this.selectedUser);
+        this.Users = { ...this.Users };
+        this.selectedUser = undefined;
+      } else {
+        const index = this.Admins.findIndex(
+          (ad) => ad.id === this.selectedAdmin.id
+        );
+        this.Admins.splice(index, 1, this.selectedAdmin);
+        this.Admins = { ...this.Admins };
+        this.selectAdmin = undefined;
+      }
     },
     async GetUsers() {
       return new Promise((resolve) => {
@@ -151,7 +173,7 @@ export default {
     selectAdmin(adm) {
       this.selectedAdmin = adm;
     },
-    },
+  },
   created() {
     this.LoadUsers();
   },

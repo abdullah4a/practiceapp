@@ -7,19 +7,19 @@
     <div class="content">
       <div class="field">
         <label for="id"> Admin ID </label><br />
-        <input type="text" id="id" v-model="admin.aid" readonly />
+        <input type="text" id="id" v-model="clonedAdmin.aid" readonly />
       </div>
       <div class="field">
         <label for="firstname"> First Name</label><br />
-        <input type="text" id="firstname" v-model="admin.afirstName" />
+        <input type="text" id="firstname" v-model="clonedAdmin.afirstName" />
       </div>
       <div class="field">
         <label for="lastame"> Last Name</label><br />
-        <input type="text" id="lastname" v-model="admin.alastname" />
+        <input type="text" id="lastname" v-model="clonedAdmin.alastname" />
       </div>
       <div class="field">
-        <label for="age"> Admin Age </label><br />
-        <input type="text" id="age" v-model="admin.aage" />
+        <label for="aage"> Admin Age </label><br />
+        <input type="text" id="aage" v-model="clonedAdmin.aage" />
       </div>
       <div class="btndiv">
         <button class="btn" @click="cancelbtn">
@@ -31,9 +31,6 @@
           {{ btnSave | SaveSentenceCase }}
         </button>
       </div>
-    </div>
-    <div class="message">
-      <pre>{{ message }}</pre>
     </div>
   </div>
 </template>
@@ -52,17 +49,22 @@ export default {
       btnSave: "save",
       btnCancel: "cancel",
       message: "This is message",
+      clonedAdmin: { ...this.admin },
     };
   },
   methods: {
     cancelbtn() {
+      this.$emit("cancel");
     },
     saveBtn() {
+      this.$emit("save", this.clonedAdmin);
     },
   },
   computed: {
     fullNameAdmin() {
-      return `${this.admin.afirstName} ${this.admin.alastname}`;
+      return this.clonedAdmin
+        ? `${this.clonedAdmin.afirstName} ${this.clonedAdmin.alastname}`
+        : "";
     },
   },
 };
