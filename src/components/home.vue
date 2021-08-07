@@ -27,89 +27,8 @@
         </ul>
       </div>
     </div>
-    <div id="usercontainer" v-if="selectedAdmin">
-      <div class="header">
-        <h4>Admin</h4>
-        <p>{{ fullNameAdmin | Capt }}</p>
-      </div>
-      <div class="content">
-        <div class="field">
-          <label for="id"> Admin ID </label><br />
-          <input type="text" id="id" v-model="selectedAdmin.aid" readonly />
-        </div>
-        <div class="field">
-          <label for="firstname"> First Name</label><br />
-          <input
-            type="text"
-            id="firstname"
-            v-model="selectedAdmin.afirstName"
-          />
-        </div>
-        <div class="field">
-          <label for="lastame"> Last Name</label><br />
-          <input type="text" id="lastname" v-model="selectedAdmin.alastname" />
-        </div>
-        <div class="field">
-          <label for="age"> Admin Age </label><br />
-          <input type="text" id="age" v-model="selectedAdmin.aage" />
-        </div>
-        <div class="btndiv">
-          <button class="btn" @click="cancelbtn">
-            {{ btnCancel | SaveSentenceCase }}
-          </button>
-        </div>
-        <div class="btndiv">
-          <button class="btn" @click="saveBtn">
-            {{ btnSave | SaveSentenceCase }}
-          </button>
-        </div>
-      </div>
-    </div>
-    <div id="usercontainer" v-if="selectedUser">
-      <div class="header">
-        <h4>User</h4>
-        <p>{{ fullName | Capt }}</p>
-      </div>
-      <div class="content">
-        <div class="field">
-          <label for="id"> User ID </label><br />
-          <input type="text" id="id" v-model="selectedUser.id" readonly />
-        </div>
-        <div class="field">
-          <label for="firstname"> First Name</label><br />
-          <input
-            type="text"
-            id="firstname"
-            v-model="selectedUser.firstName"
-          /><br />
-          {{ selectedUser.firstName | MsgIncrement }} <br />
-        </div>
-        <div class="field">
-          <label for="lastame"> Last Name</label><br />
-          <input type="text" id="lastname" v-model="selectedUser.lastname" />
-        </div>
-        <div class="field">
-          <label for="age"> User Age </label><br />
-          <input type="text" id="age" v-model="selectedUser.age" />
-        </div>
-        <div class="field">
-          <label for="age"> User Salary </label><br />
-          <input type="text" id="age" v-model="selectedUser.Salary" /><br />${{
-            selectedUser.Salary | Dollars
-          }}
-        </div>
-        <div class="btndiv">
-          <button class="btn" @click="cancelbtn">
-            {{ btnCancel | SaveSentenceCase }}
-          </button>
-        </div>
-        <div class="btndiv">
-          <button class="btn" @click="saveBtn">
-            {{ btnSave | SaveSentenceCase }}
-          </button>
-        </div>
-      </div>
-    </div>
+    <Admins v-if="selectedAdmin" :admin="selectedAdmin" />
+    <users v-if="selectedUser" :user="selectedUser" />
     <div class="message">
       <pre>{{ message }}</pre>
     </div>
@@ -117,6 +36,8 @@
 </template>
 
 <script>
+import users from "./Users.vue";
+import Admins from "./admins.vue";
 const User = [
   {
     id: 0,
@@ -183,6 +104,10 @@ const Admin = [
 ];
 export default {
   name: "Home",
+  components: {
+    users,
+    Admins,
+  },
   data() {
     return {
       Users: [],
@@ -190,23 +115,10 @@ export default {
       selectedUser: undefined,
       selectedAdmin: undefined,
       message: "This is message",
-      btnSave: "save",
-      btnCancel: "cancel",
     };
   },
   methods: {
-    cancelbtn() {
-      this.selectedUser = undefined;
-      this.selectedAdmin = undefined;
-      this.message = "";
-    },
-    saveBtn() {
-      if (this.selectedUser) {
-        this.message = JSON.stringify(this.selectedUser, null, "\n");
-      } else {
-        this.message = JSON.stringify(this.selectedAdmin, null, "\n");
-      }
-    },
+    
     async GetUsers() {
       return new Promise((resolve) => {
         setTimeout(() => resolve(User), 1500);
@@ -234,22 +146,6 @@ export default {
   created() {
     this.LoadUsers();
   },
-  computed: {
-    fullName() {
-      return `${this.selectedUser.firstName} ${this.selectedUser.lastname}`;
-    },
-    fullNameAdmin() {
-      return `${this.selectedAdmin.afirstName} ${this.selectedAdmin.alastname}`;
-    },
-  },
-  watch: {
-    "selectedUser.lastname": {
-      immediate: true,
-      handler(newValue, oldValue) {
-        console.log(`working NewValue = ${newValue} Old Value= ${oldValue}`);
-      },
-    },
-  },
   beforeCreate() {
     alert("DOM is getting Ready Please Wait...");
   },
@@ -257,7 +153,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
 ul {
   list-style-type: none;
   padding: 0;
