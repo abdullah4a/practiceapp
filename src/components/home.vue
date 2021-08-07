@@ -27,7 +27,7 @@
         </ul>
       </div>
     </div>
-    <Admins v-if="selectedAdmin" :admin="selectedAdmin" />
+    <admins v-if="selectedAdmin" :admin="selectedAdmin" />
     <users v-if="selectedUser" :user="selectedUser" />
     <div class="message">
       <pre>{{ message }}</pre>
@@ -37,7 +37,7 @@
 
 <script>
 import users from "./Users.vue";
-import Admins from "./admins.vue";
+import admins from "./admins.vue";
 const User = [
   {
     id: 0,
@@ -106,7 +106,7 @@ export default {
   name: "Home",
   components: {
     users,
-    Admins,
+    admins,
   },
   data() {
     return {
@@ -118,7 +118,16 @@ export default {
     };
   },
   methods: {
-    
+    cancelbtn() {
+      this.selectedAdmin = undefined;
+      this.selectedUser = undefined;
+      this.message = "";
+    },
+    saveBtn() {
+      if(selectedAdmin)
+      {this.message = JSON.stringify(this.selectedAdmin, null, "\n");}
+      else {this.message = JSON.stringify(this.selectedUser, null, "\n");}
+    },
     async GetUsers() {
       return new Promise((resolve) => {
         setTimeout(() => resolve(User), 1500);
@@ -142,7 +151,7 @@ export default {
     selectAdmin(adm) {
       this.selectedAdmin = adm;
     },
-  },
+    },
   created() {
     this.LoadUsers();
   },

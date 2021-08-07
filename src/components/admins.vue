@@ -56,11 +56,8 @@ export default {
   },
   methods: {
     cancelbtn() {
-      this.admin = undefined;
-      this.message = "";
     },
     saveBtn() {
-      this.message = JSON.stringify(this.admin, null, "\n");
     },
   },
   computed: {

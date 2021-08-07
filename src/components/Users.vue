@@ -22,8 +22,8 @@
         <input type="text" id="age" v-model="user.age" />
       </div>
       <div class="field">
-        <label for="age"> User Salary </label><br />
-        <input type="text" id="age" v-model="user.Salary" /><br />${{
+        <label for="Uage"> User Salary </label><br />
+        <input type="text" id="Uage" v-model="user.Salary" /><br />${{
           user.Salary | Dollars
         }}
       </div>
