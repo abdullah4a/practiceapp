@@ -30,14 +30,14 @@
     <admins
       v-if="selectedAdmin"
       :admin="selectedAdmin"
-      @save="saveBtn"
+      @save="SaveAdmin"
       @cancel="cancelbtn"
     />
     <users
       v-if="selectedUser"
       :user="selectedUser"
       @cancel="cancelbtn"
-      @save="saveBtn"
+      @save="saveUser"
     />
     <div class="message">
       <pre>{{ message }}</pre>
@@ -133,22 +133,17 @@ export default {
       this.selectedUser = undefined;
       this.message = "";
     },
-    saveBtn() {
-      if (this.selectedUser) {
-        const index = this.Users.findIndex(
-          (u) => u.id === this.selectedUser.id
-        );
-        this.Users.splice(index, 1, this.selectedUser);
-        this.Users = { ...this.Users };
-        this.selectedUser = undefined;
-      } else {
-        const index = this.Admins.findIndex(
-          (ad) => ad.id === this.selectedAdmin.id
-        );
-        this.Admins.splice(index, 1, this.selectedAdmin);
-        this.Admins = { ...this.Admins };
-        this.selectAdmin = undefined;
-      }
+    saveUser(User) {
+      const index = this.Users.findIndex((u) => u.id === User.id);
+      this.Users.splice(index, 1, User);
+      this.Users = { ...this.Users };
+      User = undefined;
+    },
+    SaveAdmin(Adm) {
+      const index = this.Admins.findIndex((ad) => ad.id === Adm.id);
+      this.Admins.splice(index, 1, Adm);
+      this.Admins = { ...this.Admins };
+      Adm = undefined;
     },
     async GetUsers() {
       return new Promise((resolve) => {
@@ -162,6 +157,7 @@ export default {
     },
     async LoadUsers() {
       this.Users = [];
+      this.Admins = [];
       this.message = "Please wait... Users and Admins are being Loaded";
       this.Users = await this.GetUsers();
       this.Admins = await this.GetAdmin();
@@ -182,8 +178,6 @@ export default {
   },
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 ul {
   list-style-type: none;

@@ -14,7 +14,7 @@ Vue.filter("Dollars", function(val) {
 })
 Vue.filter("SaveSentenceCase", function(val) {
     if (!val)
-        return '';
+        return '';/// Save the 
     else {
         val = val.toString()
         return val.charAt(0).toUpperCase() + val.slice(1)

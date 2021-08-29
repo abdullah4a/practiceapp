@@ -13,6 +13,15 @@ export default {
   components: {
     Home,
   },
+  data() {
+    return {
+      msg: "Hello",
+    };
+  }, methods: {
+    fun() {
+      console.log("");
+    }
+  },
 };
 </script>
 
